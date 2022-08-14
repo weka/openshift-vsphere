@@ -1,18 +1,18 @@
-$ORIGIN .
 $TTL 120;
-${cluster_domain}         IN SOA  ns1.${cluster_domain}. hostmaster.${cluster_domain}. (
-                                2011112904 ; serial
+$ORIGIN .
+${cluster_domain}.      IN SOA  ns1.${cluster_domain}. hostmaster.${cluster_domain}. (
+                                2011112910 ; serial
                                 60         ; refresh (1 minute)
                                 15         ; retry (15 seconds)
                                 600        ; expire (10 minutes)
                                 10         ; minimum (10 seconds)
                                 )
                         NS      ns1.${cluster_domain}.
-ns1.${cluster_domain}   A       ${coredns_ip}
-
-$ORIGIN ${cluster_slug}.${cluster_domain}.
+                        NS      ${public_dns}.
+$ORIGIN ${cluster_domain}.
 ns1                     A       ${coredns_ip}
 
+$ORIGIN ${cluster_slug}.${cluster_domain}.
 lb                      A       ${loadbalancer_ip}
 api                     A       ${loadbalancer_ip}
 api-int                 A       ${loadbalancer_ip}
