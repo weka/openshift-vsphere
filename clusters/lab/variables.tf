@@ -39,12 +39,12 @@ data "vsphere_compute_cluster" "cluster" {
 }
 
 data "vsphere_network" "network" {
-  name          = "VM Network"
+  name          = "Management"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
 data "vsphere_datastore" "nvme" {
-  name          = "nvme2tb970"
+  name          = "server8.lan-ds-a07510dd630e1"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
