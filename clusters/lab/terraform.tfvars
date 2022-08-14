@@ -1,23 +1,22 @@
 ## Node IPs
-loadbalancer_ip = "192.168.5.160"
-coredns_ip = "192.168.5.169"
-bootstrap_ip = "192.168.5.168"
-master_ips = ["192.168.5.161", "192.168.5.162", "192.168.5.163"]
-#worker_ips = ["192.168.5.164", "192.168.5.165"]
-worker_ips = ["192.168.5.164", "192.168.5.165", "192.168.5.166"]
+loadbalancer_ip = "172.16.1.50"
+coredns_ip = "172.16.1.61"
+bootstrap_ip = "172.16.1.59"
+master_ips = ["172.16.1.52", "172.16.1.53", "172.16.1.54"]
+worker_ips = ["172.16.1.55", "172.16.1.56", "172.16.1.57"]
 
 ## Cluster configuration
-vmware_folder = "redhat/openshift"
-rhcos_template = "rhcos-4.9.0"
-cluster_slug = "ocp4"
-cluster_domain = "openshift.lab.int"
-machine_cidr = "192.168.5.0/20"
-netmask ="255.255.240.0"
+vmware_folder = "coreos"
+rhcos_template = "coreos-template"
+cluster_slug = "ocp410"
+cluster_domain = "coreos.lan"
+machine_cidr = "172.16.0.0/21"
+netmask ="255.255.248.0"
 
 ## DNS
-local_dns = "192.168.5.169" # probably the same as coredns_ip
-public_dns = "192.168.1.254" # e.g. 1.1.1.1
-gateway = "192.168.1.254"
+local_dns = "172.16.1.61" # probably the same as coredns_ip
+public_dns = "172.16.0.1" # e.g. 1.1.1.1
+gateway = "172.16.0.254"
 
 ## Ignition paths
 ## Expects `openshift-install create ignition-configs` to have been run
