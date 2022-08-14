@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # A helper script for openshift-install
 
 ## ignition creation prep
