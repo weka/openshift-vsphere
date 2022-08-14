@@ -12,7 +12,10 @@ data "ignition_file" "corefile" {
   path = "/opt/coredns/Corefile"
   mode = "420" // 0644
   content {
-    content = file("${path.module}/files/Corefile")
+    content = templatefile("${path.module}/files/Corefile.tmpl", {
+      cluster_domain = var.cluster_domain,
+      dns_forwarders = var.public_dns,
+    })
   }
 }
 

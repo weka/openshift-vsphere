@@ -1,10 +1,10 @@
 .:53 {
-    forward . 172.16.0.1 8.8.8.8 8.8.4.4
+    forward . ${dns_forwarders}
     log
     errors
 }
 
-openshift.lab.int:53 {
+${cluster_domain}:53 {
     file /root/openshift.lab.int.db
     log
     errors

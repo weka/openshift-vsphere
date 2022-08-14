@@ -29,3 +29,7 @@ variable "master_ips" {
 variable "worker_ips" {
   type = list(string)
 }
+
+variable "public_dns" {
+  type = string
+}
