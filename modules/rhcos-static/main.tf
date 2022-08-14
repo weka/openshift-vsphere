@@ -23,7 +23,6 @@ data "ignition_config" "vm" {
 }
 
 resource "vsphere_virtual_machine" "vm" {
-
   name               = var.name
   resource_pool_id   = var.resource_pool_id
   datastore_id       = var.datastore

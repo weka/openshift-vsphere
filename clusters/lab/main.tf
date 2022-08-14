@@ -9,7 +9,7 @@ module "master" {
   name      = "${var.cluster_slug}-master${count.index + 1}"
   folder    = "${var.vmware_folder}/${var.cluster_slug}"
   datastore = data.vsphere_datastore.nvme.id
-  disk_size = 40
+  disk_size = 120
   memory    = 8192
   num_cpu   = 8
   ignition  = file(var.master_ignition_path)
@@ -36,7 +36,7 @@ module "worker" {
   name      = "${var.cluster_slug}-worker${count.index + 1}"
   folder    = "${var.vmware_folder}/${var.cluster_slug}"
   datastore = data.vsphere_datastore.nvme.id
-  disk_size = 40
+  disk_size = 120
   memory    = 8192
   num_cpu   = 4
   ignition  = file(var.worker_ignition_path)
@@ -63,7 +63,7 @@ module "bootstrap" {
   name      = "${var.cluster_slug}-bootstrap"
   folder    = "${var.vmware_folder}/${var.cluster_slug}"
   datastore = data.vsphere_datastore.nvme.id
-  disk_size = 40
+  disk_size = 120
   memory    = 8192
   num_cpu   = 16
   ignition  = file(var.bootstrap_ignition_path)
@@ -102,7 +102,7 @@ module "lb_vm" {
   name      = "${var.cluster_slug}-lb"
   folder    = "${var.vmware_folder}/${var.cluster_slug}"
   datastore = data.vsphere_datastore.nvme.id
-  disk_size = 16
+  disk_size = 120
   memory    = 1024
   num_cpu   = 2
   ignition  = module.lb.ignition
@@ -146,7 +146,7 @@ module "dns_vm" {
   name      = "${var.cluster_slug}-coredns"
   folder    = "${var.vmware_folder}/${var.cluster_slug}"
   datastore = data.vsphere_datastore.nvme.id
-  disk_size = 16
+  disk_size = 120
   memory    = 1024
   num_cpu   = 2
   ignition  = module.coredns.ignition
