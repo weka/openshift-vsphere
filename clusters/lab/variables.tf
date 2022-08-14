@@ -131,3 +131,19 @@ variable "netmask" {
 variable "ssh_pubkey_path" {
   type = string
 }
+
+variable "worker_cpus" {
+  type = number
+}
+
+variable "worker_ram_mb" {
+  type = number
+}
+
+variable "master_cpus" {
+  type = number
+}
+
+variable "master_ram_mb" {
+  type = number
+}

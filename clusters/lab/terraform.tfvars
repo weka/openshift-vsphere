@@ -25,3 +25,9 @@ bootstrap_ignition_path = "../../openshift/bootstrap.ign"
 master_ignition_path = "../../openshift/master.ign"
 worker_ignition_path = "../../openshift/worker.ign"
 ssh_pubkey_path = "~/.ssh/weka_dev_ssh_key.pub"
+
+worker_cpus = 8
+worker_ram_mb = 32768
+
+master_cpus = 4
+master_ram_mb = 16384
