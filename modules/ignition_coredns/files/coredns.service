@@ -11,6 +11,7 @@ ExecStartPre=/bin/podman pull quay.io/openshift/origin-coredns
 ExecStart=/bin/podman run --name coredns \
   --privileged \
   -p 53:53 \
+  -p 53:53/udp \
   -v /opt/coredns/:/root/:Z \
   quay.io/openshift/origin-coredns -conf /root/Corefile
 
