@@ -8,4 +8,11 @@ ${cluster_domain}:53 {
     file /root/openshift.lab.int.db
     log
     errors
+    transfer {
+        to *
+    }
+    acl {
+        allow type AXFR net *
+        allow type IXFR net *
+    }
 }
