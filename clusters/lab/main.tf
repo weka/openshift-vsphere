@@ -138,6 +138,7 @@ module "coredns" {
   loadbalancer_ip = var.loadbalancer_ip
   master_ips      = var.master_ips
   worker_ips      = var.worker_ips
+  public_dns      = var.public_dns
 }
 
 module "dns_vm" {
