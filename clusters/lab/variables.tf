@@ -127,3 +127,7 @@ variable "public_dns" {
 variable "netmask" {
   type = string
 }
+
+variable "ssh_pubkey_path" {
+  type = string
+}

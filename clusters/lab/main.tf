@@ -87,7 +87,7 @@ module "bootstrap" {
 module "lb" {
   source = "../../modules/ignition_haproxy"
 
-  ssh_key_file  = [file("~/.ssh/id_ed25519.pub")]
+  ssh_key_file  = [file(var.ssh_pubkey_path)]
   lb_ip_address = var.loadbalancer_ip
   api_backend_addresses = flatten([
     var.bootstrap_ip,
@@ -129,7 +129,7 @@ module "lb_vm" {
 
 module "coredns" {
   source       = "../../modules/ignition_coredns"
-  ssh_key_file = [file("~/.ssh/id_ed25519.pub")]
+  ssh_key_file = [file(var.ssh_pubkey_path)]
 
   cluster_slug    = var.cluster_slug
   cluster_domain  = var.cluster_domain
