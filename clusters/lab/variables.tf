@@ -39,7 +39,12 @@ data "vsphere_compute_cluster" "cluster" {
 }
 
 data "vsphere_network" "network" {
-  name          = "Management"
+  name          = var.mgmt_nic_network
+  datacenter_id = data.vsphere_datacenter.dc.id
+}
+
+data "vsphere_network" "data_network" {
+  name = var.worker_data_nic_network
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
@@ -146,4 +151,16 @@ variable "master_cpus" {
 
 variable "master_ram_mb" {
   type = number
+}
+
+variable "worker_data_nics_count" {
+  type = number
+}
+
+variable "worker_data_nic_network" {
+  type = string
+}
+
+variable "mgmt_nic_network" {
+  type = string
 }

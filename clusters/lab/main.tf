@@ -22,12 +22,14 @@ module "master" {
   network      = data.vsphere_network.network.id
   adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
 
-  cluster_domain = var.cluster_domain
-  machine_cidr   = var.machine_cidr
-  dns_address    = var.local_dns
-  gateway        = var.gateway
-  ipv4_address   = var.master_ips[count.index]
-  netmask        = var.netmask
+  cluster_domain  = var.cluster_domain
+  machine_cidr    = var.machine_cidr
+  dns_address     = var.local_dns
+  gateway         = var.gateway
+  ipv4_address    = var.master_ips[count.index]
+  netmask         = var.netmask
+  data_nics_count = 0
+  data_network    = data.vsphere_network.data_network.id
 }
 
 module "worker" {
@@ -49,12 +51,15 @@ module "worker" {
   network      = data.vsphere_network.network.id
   adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
 
-  cluster_domain = var.cluster_domain
-  machine_cidr   = var.machine_cidr
-  dns_address    = var.local_dns
-  gateway        = var.gateway
-  ipv4_address   = var.worker_ips[count.index]
-  netmask        = var.netmask
+  cluster_domain  = var.cluster_domain
+  machine_cidr    = var.machine_cidr
+  dns_address     = var.local_dns
+  gateway         = var.gateway
+  ipv4_address    = var.worker_ips[count.index]
+  netmask         = var.netmask
+  data_network    = data.vsphere_network.data_network.id
+  data_nics_count = var.worker_data_nics_count
+
 }
 
 module "bootstrap" {
@@ -76,12 +81,14 @@ module "bootstrap" {
   network      = data.vsphere_network.network.id
   adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
 
-  cluster_domain = var.cluster_domain
-  machine_cidr   = var.machine_cidr
-  dns_address    = var.local_dns
-  gateway        = var.gateway
-  ipv4_address   = var.bootstrap_ip
-  netmask        = var.netmask
+  cluster_domain  = var.cluster_domain
+  machine_cidr    = var.machine_cidr
+  dns_address     = var.local_dns
+  gateway         = var.gateway
+  ipv4_address    = var.bootstrap_ip
+  netmask         = var.netmask
+  data_nics_count = 0
+  data_network    = data.vsphere_network.data_network.id
 }
 
 module "lb" {
@@ -115,12 +122,14 @@ module "lb_vm" {
   network      = data.vsphere_network.network.id
   adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
 
-  cluster_domain = var.cluster_domain
-  machine_cidr   = var.machine_cidr
-  dns_address    = var.public_dns
-  gateway        = var.gateway
-  ipv4_address   = var.loadbalancer_ip
-  netmask        = var.netmask
+  cluster_domain  = var.cluster_domain
+  machine_cidr    = var.machine_cidr
+  dns_address     = var.public_dns
+  gateway         = var.gateway
+  ipv4_address    = var.loadbalancer_ip
+  netmask         = var.netmask
+  data_nics_count = 0
+  data_network    = data.vsphere_network.data_network.id
 }
 
 # output "ign" {
@@ -160,10 +169,12 @@ module "dns_vm" {
   network      = data.vsphere_network.network.id
   adapter_type = data.vsphere_virtual_machine.template.network_interface_types[0]
 
-  cluster_domain = var.cluster_domain
-  machine_cidr   = var.machine_cidr
-  dns_address    = var.public_dns
-  gateway        = var.gateway
-  ipv4_address   = var.coredns_ip
-  netmask        = var.netmask
+  cluster_domain  = var.cluster_domain
+  machine_cidr    = var.machine_cidr
+  dns_address     = var.public_dns
+  gateway         = var.gateway
+  ipv4_address    = var.coredns_ip
+  netmask         = var.netmask
+  data_nics_count = 0
+  data_network    = data.vsphere_network.data_network.id
 }

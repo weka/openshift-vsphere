@@ -31,3 +31,7 @@ worker_ram_mb = 32768
 
 master_cpus = 4
 master_ram_mb = 16384
+
+mgmt_nic_network = "Management"
+worker_data_nics_count = 2
+worker_data_nic_network = "DATA"

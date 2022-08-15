@@ -42,6 +42,14 @@ resource "vsphere_virtual_machine" "vm" {
     adapter_type = var.adapter_type
   }
 
+  dynamic "network_interface" {
+    for_each = range(var.data_nics_count)
+    content {
+      network_id   = var.data_network
+      adapter_type = var.adapter_type
+    }
+  }
+
   disk {
     label            = "disk0"
     size             = var.disk_size

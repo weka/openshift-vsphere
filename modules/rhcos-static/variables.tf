@@ -28,6 +28,14 @@ variable "network" {
   type = string
 }
 
+variable "data_network" {
+  type = string
+}
+
+variable "data_nics_count" {
+  type = number
+}
+
 variable "adapter_type" {
   type = string
 }
