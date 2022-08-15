@@ -69,8 +69,8 @@ module "bootstrap" {
   folder    = "${var.vmware_folder}/${var.cluster_slug}"
   datastore = data.vsphere_datastore.nvme.id
   disk_size = 120
-  memory    = var.master_cpus
-  num_cpu   = var.master_ram_mb
+  memory    = var.master_ram_mb
+  num_cpu   = var.master_cpus
   ignition  = file(var.bootstrap_ignition_path)
 
   resource_pool_id = data.vsphere_compute_cluster.cluster.resource_pool_id
@@ -94,13 +94,14 @@ module "bootstrap" {
 module "lb" {
   source = "../../modules/ignition_haproxy"
 
-  ssh_key_file  = [file(var.ssh_pubkey_path)]
-  lb_ip_address = var.loadbalancer_ip
+  ssh_key_file          = [file(var.ssh_pubkey_path)]
+  lb_ip_address         = var.loadbalancer_ip
   api_backend_addresses = flatten([
     var.bootstrap_ip,
-    var.master_ips]
+    var.master_ips
+  ]
   )
-  ingress = var.worker_ips
+  ingress         = var.worker_ips
 }
 
 module "lb_vm" {
