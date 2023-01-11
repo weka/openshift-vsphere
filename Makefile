@@ -46,7 +46,7 @@ approve-csr:
 		xargs oc --kubeconfig openshift/auth/kubeconfig adm certificate approve
 
 import-ova:
-	govc import.ova --folder=templates --ds=mx1tb --name=rhcos-4.6.1 https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.6/4.6.1/rhcos-vmware.x86_64.ova
+	. ~/.govc/config && govc import.ova --folder=coreos --ds=Garage --name=coreos-template https://mirror.openshift.com/pub/openshift-v4/dependencies/rhcos/4.10/4.10.25/rhcos-vmware.x86_64.ova
 
 kraken:
 	docker run --name=kraken --net=host -v /Users/alex/git/ib/ocp4/openshift/auth/kubeconfig:/root/.kube/config -v /Users/alex/git/ib/ocp4/kraken/config/config.yaml:/root/kraken/config/config.yaml -d quay.io/openshift-scale/kraken:latest
