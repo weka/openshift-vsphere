@@ -4,6 +4,7 @@ data "vsphere_virtual_machine" "template" {
 }
 
 module "master" {
+  depends_on = [module.bootstrap]
   source    = "../../modules/rhcos-static"
   count     = length(var.master_ips)
   name      = "${var.cluster_slug}-master${count.index + 1}"
@@ -33,6 +34,7 @@ module "master" {
 }
 
 module "worker" {
+  depends_on = [module.bootstrap]
   source    = "../../modules/rhcos-static"
   count     = length(var.worker_ips)
   name      = "${var.cluster_slug}-worker${count.index + 1}"
@@ -63,6 +65,8 @@ module "worker" {
 }
 
 module "bootstrap" {
+  depends_on = [module.coredns]
+
   source    = "../../modules/rhcos-static"
   count     = "${var.bootstrap_complete ? 0 : 1}"
   name      = "${var.cluster_slug}-bootstrap"
@@ -105,6 +109,7 @@ module "lb" {
 }
 
 module "lb_vm" {
+  depends_on = [module.coredns]
   source    = "../../modules/rhcos-static"
   count     = 1
   name      = "${var.cluster_slug}-lb"
@@ -138,6 +143,7 @@ module "lb_vm" {
 # }
 
 module "coredns" {
+  depends_on = [module.dns_vm]
   source       = "../../modules/ignition_coredns"
   ssh_key_file = [file(var.ssh_pubkey_path)]
 
