@@ -1,9 +1,9 @@
 ## Node IPs
-loadbalancer_ip = "172.16.1.50"
-coredns_ip = "172.16.1.61"
-bootstrap_ip = "172.16.1.59"
-master_ips = ["172.16.1.52", "172.16.1.53", "172.16.1.54"]
-worker_ips = ["172.16.1.55", "172.16.1.56", "172.16.1.57"]
+loadbalancer_ip = "172.16.8.1"
+coredns_ip = "172.16.8.10"
+bootstrap_ip = "172.16.8.9"
+master_ips = ["172.16.8.2", "172.16.8.3", "172.16.8.4"]
+worker_ips = ["172.16.8.5", "172.16.8.6", "172.16.8.7"]
 
 ## Cluster configuration
 vmware_folder = "coreos"
@@ -14,7 +14,7 @@ machine_cidr = "172.16.0.0/21"
 netmask ="255.255.248.0"
 
 ## DNS
-local_dns = "172.16.1.61" # probably the same as coredns_ip
+local_dns = "172.16.8.10" # probably the same as coredns_ip
 public_dns = "172.16.0.1" # e.g. 1.1.1.1
 gateway = "172.16.0.254"
 
