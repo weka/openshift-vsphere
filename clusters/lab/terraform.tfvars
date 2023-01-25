@@ -33,5 +33,5 @@ master_cpus = 4
 master_ram_mb = 16384
 
 mgmt_nic_network = "Management"
-worker_data_nics_count = 3  # need to have 1 for management and 2 for ionodes
+worker_data_nics_count = 2  # need to have 1 for management and 2 for ionodes TODO: currently will define only 1 for ionode otherwise we have node choosing invalid address
 worker_data_nic_network = "DATA"
