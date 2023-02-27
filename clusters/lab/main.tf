@@ -185,3 +185,9 @@ module "dns_vm" {
   data_nics_count = 0
   data_network    = data.vsphere_network.data_network.id
 }
+
+resource "vsphere_folder" slug {
+  path = "/IL-LAB/vm/${var.cluster_slug}"
+  type = "vm"
+
+}
