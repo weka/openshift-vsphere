@@ -187,7 +187,8 @@ module "dns_vm" {
 }
 
 resource "vsphere_folder" slug {
-  path = "/IL-LAB/vm/${var.cluster_slug}"
+  path = "${var.cluster_slug}"
   type = "vm"
+  datacenter_id = data.vsphere_datacenter.dc.id
 
 }
