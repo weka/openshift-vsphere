@@ -12,7 +12,7 @@ remove-bootstrap-lab:
 	cd clusters/lab; terraform apply -auto-approve -var 'bootstrap_complete=true'
 
 wait-for-bootstrap:
-	cd openshift; openshift-install wait-for install-complete --log-level debug
+	cd openshift; openshift-install wait-for bootstrap-complete --log-level debug
 
 wait-for-install:
 	cd openshift; openshift-install wait-for install-complete --log-level debug
@@ -46,7 +46,7 @@ approve-csr:
 		xargs oc --kubeconfig openshift/auth/kubeconfig adm certificate approve
 
 import-ova:
-	. ~/.govc/config && govc import.ova --folder=coreos --ds=Garage --name=coreos-template https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.11/4.11.9/rhcos-4.11.9-x86_64-vmware.x86_64.ova
+	. ~/.govc/config && govc import.ova --folder=coreos --ds=Garage --name=coreos-template https://mirror.openshift.com/pub/openshift-v4/x86_64/dependencies/rhcos/4.10/4.10.37/rhcos-4.10.37-x86_64-vmware.x86_64.ova
 
 remove-ova:
 	. ~/.govc/config && govc vm.destroy coreos-template
