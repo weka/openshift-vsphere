@@ -43,7 +43,7 @@ resource "vsphere_virtual_machine" "vm" {
   }
 
   dynamic "network_interface" {
-    for_each = range(var.data_nics_count)
+    for_each = var.attach_data_nics ? range(var.data_nics_count) : []
     content {
       network_id   = var.data_network
       adapter_type = var.adapter_type

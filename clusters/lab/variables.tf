@@ -164,3 +164,8 @@ variable "worker_data_nic_network" {
 variable "mgmt_nic_network" {
   type = string
 }
+
+variable "attach_data_nics" {
+  type = string
+  default = false
+}

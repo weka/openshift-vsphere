@@ -31,6 +31,7 @@ module "master" {
   netmask         = var.netmask
   data_nics_count = 0
   data_network    = data.vsphere_network.data_network.id
+  attach_data_nics = false
 }
 
 module "worker" {
@@ -62,7 +63,7 @@ module "worker" {
   netmask         = var.netmask
   data_network    = data.vsphere_network.data_network.id
   data_nics_count = var.worker_data_nics_count
-
+  attach_data_nics = var.attach_data_nics
 }
 
 module "bootstrap" {
@@ -94,6 +95,7 @@ module "bootstrap" {
   netmask         = var.netmask
   data_nics_count = 0
   data_network    = data.vsphere_network.data_network.id
+  attach_data_nics = false
 }
 
 module "lb" {
@@ -137,6 +139,7 @@ module "lb_vm" {
   netmask         = var.netmask
   data_nics_count = 0
   data_network    = data.vsphere_network.data_network.id
+  attach_data_nics = false
 }
 
 # output "ign" {
@@ -184,6 +187,7 @@ module "dns_vm" {
   netmask         = var.netmask
   data_nics_count = 0
   data_network    = data.vsphere_network.data_network.id
+  attach_data_nics = false
 }
 
 resource "vsphere_folder" slug {

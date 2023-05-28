@@ -36,6 +36,10 @@ variable "data_nics_count" {
   type = number
 }
 
+variable "attach_data_nics" {
+  type = bool
+}
+
 variable "adapter_type" {
   type = string
 }

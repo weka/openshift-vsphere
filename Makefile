@@ -73,3 +73,6 @@ configure-registry:
     oc get secret -n openshift-ingress router-certs-default -o go-template='{{index .data "tls.crt"}}' | base64 -d | sudo tee /etc/pki/ca-trust/source/anchors/$${HOST}.crt  > /dev/null && \
     sudo update-ca-trust enable && \
     sudo podman login -u kubeadmin -p $(oc whoami -t) $HOST
+
+attach-data-nics:
+	cd clusters/lab; terraform apply -auto-approve -var 'attach_data_nics=true'
