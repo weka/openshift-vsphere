@@ -49,7 +49,7 @@ data "vsphere_network" "data_network" {
 }
 
 data "vsphere_datastore" "nvme" {
-  name          = "server8.lan-ds-a07510dd630e1"
+  name          = "iSCSI-DS"
   datacenter_id = data.vsphere_datacenter.dc.id
 }
 
