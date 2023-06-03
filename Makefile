@@ -55,24 +55,43 @@ kraken:
 	docker run --name=kraken --net=host -v /Users/alex/git/ib/ocp4/openshift/auth/kubeconfig:/root/.kube/config -v /Users/alex/git/ib/ocp4/kraken/config/config.yaml:/root/kraken/config/config.yaml -d quay.io/openshift-scale/kraken:latest
 
 import-ca:
+	@echo "========= THIS WORKS ONLY ON UBUNTU LINUX, FOR OTHER OS INSTALL CERTIFICATE MANUALLY =========="
 	oc rsh -n openshift-authentication \
         $$(oc get pod -n openshift-authentication | head -2 | tail -1 | cut -d" " -f1) \
         cat /run/secrets/kubernetes.io/serviceaccount/ca.crt > openshift/auth/ingress-ca.crt && \
         sudo apt-get install -y ca-certificates && \
         sudo cp openshift/auth/ingress-ca.crt /usr/local/share/ca-certificates && \
         sudo update-ca-certificates
+	@echo "==============================================================================================="
 
 
 configure-registry:
-	oc apply -f image-registry-storage-pvc.yaml && \
-    oc patch configs.imageregistry.operator.openshift.io cluster --type merge --patch '{"spec":{"managementState":"Managed"}}' && \
-    oc patch config.imageregistry.operator.openshift.io/cluster --type=merge -p '{"spec":{"rolloutStrategy":"Recreate","replicas":1}}' && \
-    oc patch configs.imageregistry.operator.openshift.io --type=merge -p '{"spec":{"storage":{"managementState": "Managed", "pvc": {"claim": "image-registry-storage"}}}}' && \
-    oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type=merge && \
-    HOST=$$(oc get route default-route -n openshift-image-registry --template='{{ .spec.host }}') && \
-    oc get secret -n openshift-ingress router-certs-default -o go-template='{{index .data "tls.crt"}}' | base64 -d | sudo tee /etc/pki/ca-trust/source/anchors/$${HOST}.crt  > /dev/null && \
-    sudo update-ca-trust enable && \
-    sudo podman login -u kubeadmin -p $(oc whoami -t) $HOST
+	@set -e
+	@echo "Configuring registry"
+	@oc login -u kubeadmin -p `cat openshift/auth/kubeadmin-password`
+
+	@oc --kubeconfig openshift/auth/kubeconfig apply -f image-registry-storage-pvc.yaml
+	@oc --kubeconfig openshift/auth/kubeconfig patch configs.imageregistry.operator.openshift.io cluster --type merge --patch '{"spec":{"managementState":"Managed"}}'
+	@oc --kubeconfig openshift/auth/kubeconfig patch config.imageregistry.operator.openshift.io/cluster --type=merge -p '{"spec":{"rolloutStrategy":"Recreate","replicas":1}}'
+	@oc --kubeconfig openshift/auth/kubeconfig patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type=merge
+	@echo -e "=============================== EDIT THIS PART MANUALLY ============================="
+	@echo "$ oc --kubeconfig openshift/auth/kubeconfig edit configs.imageregistry.operator.openshift.io"
+	@echo -e "Edit the 'storage' to resemble this:\n\nstorage:\n  pvc:\n    claim:\n"
+	@echo "====================================================================================="
+	@read -p "Press Enter to continue" ans
+	@HOST=$$(oc --kubeconfig openshift/auth/kubeconfig get route default-route -n openshift-image-registry --template='{{ .spec.host }}'); \
+	if ! oc --kubeconfig openshift/auth/kubeconfig whoami -t > /dev/null; then \
+		@echo "=============================== NEED TO LOG IN TO OPENSHIFT ========================="; \
+		@LOGIN_ADDR=$$(oc --kubeconfig openshift/auth/kubeconfig get route -n openshift-authentication oauth-openshift --template='{{ .spec.host }}'); \
+		@API_ADDR="https://api.$$(echo -n $$LOGIN_ADDR | awk '{sub(/.*.apps./,""); print}':6443)"; \
+		@echo "Log in to https://$LOGIN_ADDR/oauth/token/request with username kubeadmin and password $$(cat openshift/kubeadmin-password) and paste it here, then press Enter"; \
+		@read -p token ;\
+		oc login --token="$$token" --server="$$API_ADDR" ;\
+	fi ; \
+	which podman >/dev/null && podman_cmd=podman || podman_cmd=docker; \
+	sudo $$podman_cmd login --username kubeadmin --password $(oc --kubeconfig openshift/auth/kubeconfig whoami -t) "$$HOST" || echo "Podman not installed, cannot test!" ; \
+	$$podman_cmd manifest inspect default-route-openshift-image-registry.apps.ocp410.coreos.lan/openshift/driver-toolkit >/dev/null || echo "Failed to find driver-buildkit"
+
 
 attach-data-nics:
 	cd clusters/lab; terraform apply -auto-approve -var 'attach_data_nics=true'
